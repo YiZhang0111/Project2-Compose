@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  dind:
+    image: docker:24-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    volumes:
+      - docker-storage:/var/lib/docker
+    networks:
+      - jenkins
+    restart: unless-stopped
+
+  jenkins:
+    build: ./jenkins
+    environment:
+      - DOCKER_HOST=tcp://dind:2375
+      - DOCKER_TLS_CERTDIR=
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - jenkins
+    depends_on:
+      - dind
+    restart: unless-stopped
+
+  volumes:
+    jenkins_home: {}
+    dind-storage: {}
+ 
+  networks:
+    jenkins:
+      driver: bridge

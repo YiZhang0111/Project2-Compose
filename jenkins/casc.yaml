@@ -1,0 +1,10 @@
+jenkins:
+  securityRealm:
+    local:
+      allowSignup: false
+      users:
+        - id: "pipelineUser"
+          password: "pipelinePass123"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
