@@ -31,7 +31,7 @@ services:
   volumes:
     jenkins_home: {}
     dind-storage: {}
- 
-  networks:
-    jenkins:
-      driver: bridge
+
+ networks:
+   jenkins:
+   driver: bridge
