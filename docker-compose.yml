@@ -28,10 +28,10 @@ services:
       - dind
     restart: unless-stopped
 
-  volumes:
-    jenkins_home: {}
-    dind-storage: {}
+volumes:
+  jenkins_home: {}
+  dind-storage: {}
 
- networks:
-   jenkins:
-   driver: bridge
+networks:
+  jenkins:
+  driver: bridge
