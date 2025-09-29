@@ -6,7 +6,6 @@ services:
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
       - docker-certs:/certs/client
-      - jenkins-data:/var/jenkins_home
       - docker-data:/var/lib/docker
     networks:
       - jenkins
@@ -32,7 +31,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  jenkins_data:
+  jenkins-data:
   docker-data:
   docker-certs:
 
