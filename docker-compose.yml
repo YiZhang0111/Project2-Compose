@@ -1,24 +1,27 @@
-version: '3.8'
-
 services:
   dind:
-    image: docker:24-dind
+    image: docker:dind
     privileged: true
     environment:
-      - DOCKER_TLS_CERTDIR=
+      - DOCKER_TLS_CERTDIR=/certs
     volumes:
-      - docker-storage:/var/lib/docker
+      - docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+      - docker-data:/var/lib/docker
     networks:
       - jenkins
     restart: unless-stopped
 
   jenkins:
-    build: ./jenkins
+    image: jenkins/jenkins:lts
+    user: root
     environment:
-      - DOCKER_HOST=tcp://dind:2375
-      - DOCKER_TLS_CERTDIR=
+      - DOCKER_HOST=tcp://dind:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins_data:/var/jenkins_home
+      - docker-certs:/certs/client:ro
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -29,8 +32,9 @@ services:
     restart: unless-stopped
 
 volumes:
-  jenkins_home: {}
-  dind-storage: {}
+  jenkins_data:
+  docker-data:
+  docker-certs:
 
 networks:
   jenkins:
