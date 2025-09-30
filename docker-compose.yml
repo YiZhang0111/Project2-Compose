@@ -2,6 +2,8 @@ services:
   dind:
     image: docker:dind
     privileged: true
+    ports:
+      - "2375:2375"
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
