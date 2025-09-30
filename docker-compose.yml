@@ -3,7 +3,7 @@ services:
     image: docker:dind
     privileged: true
     ports:
-      - "2375:2375"
+      - "2376:2376"
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
@@ -17,7 +17,7 @@ services:
     image: jenkins/jenkins:lts
     user: root
     environment:
-      - DOCKER_HOST=tcp://dind:2375
+      - DOCKER_HOST=tcp://dind:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
     volumes:
